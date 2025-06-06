@@ -42,10 +42,11 @@ const resolvers = {
       if (!valid) throw new Error('Contraseña incorrecta');
 
       const token = jwt.sign(
-        { id: user.Id_user, email: user.email, role: user.role },
+        { id: user.Id_user, email: user.email, role: user.role, name: user.name },
         JWT_SECRET,
         { expiresIn: '1h' }
       );
+
 
       await db.raw("SET @usuario_app = ?", [context.user || user.name || 'anonimo']);
       await db('tokenrev').insert({
