@@ -62,13 +62,19 @@ const resolvers = {
     },
 
     createUser: async (_, args, context) => {
-      const hashedPassword = await bcrypt.hash(args.password, 10);
-      await db.raw("SET @usuario_app = ?", [context.user || 'anonimo']);
-      const [id] = await db('users').insert({
-        ...args,
-        password: hashedPassword
-      });
-      return { Id_user: id, ...args, password: undefined };
+      console.log('ARGS:', args);
+      try {
+        const hashedPassword = await bcrypt.hash(args.password, 10);
+        await db.raw("SET @usuario_app = ?", [context.user || 'anonimo']);
+        const [id] = await db('users').insert({
+          ...args,
+          password: hashedPassword
+        });
+        return { Id_user: id, ...args, password: undefined };
+      } catch (err) {
+        console.error('Error en createUser:', err);
+        throw err;
+      }
     },
 
     updateUser: async (_, { Id_user, password, ...data }, context) => {
