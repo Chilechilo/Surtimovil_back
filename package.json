@@ -1,4 +1,9 @@
 {
+  "name": "surtimovil-back",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "apollo-server": "^3.13.0",
     "bcrypt": "^6.0.0",
